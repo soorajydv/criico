@@ -253,7 +253,7 @@ Requires Node 20+.
 npm install
 cp .env.example .env.local        # then set JWT_SECRET (command in the file)
 
-# Set MONGODB_URI to your existing MongoDB replica-set deployment.
+# Set MONGODB_URI to your MongoDB Atlas connection string.
 
 npm run dev                       # http://localhost:3000
 ```
@@ -276,8 +276,25 @@ Recording a match uses a transaction, so the configured MongoDB deployment must 
 
 ## Deployment
 
-1. **MongoDB Atlas.** Create a free M0 cluster and a database user. Under *Network Access*, allow `0.0.0.0/0`, because Vercel functions use dynamic IPs. Copy the connection string and add a database name, e.g. `.../criico?retryWrites=true&w=majority`.
-2. **Vercel.** Import the GitHub repo and set the environment variables `MONGODB_URI` and `JWT_SECRET` (48+ random characters). Deploy.
+The repository includes [`vercel.json`](vercel.json), which configures the Next.js framework, `npm ci` installs, `npm run build`, and clean URLs. `.env.local` is ignored and must never be committed.
+
+1. **MongoDB.** Use MongoDB Atlas or another replica-set deployment. Recording a match uses a transaction, so a standalone MongoDB server is not sufficient. Create a database user and copy a connection string with the `criico` database name, for example `.../criico?retryWrites=true&w=majority`.
+2. **Network access.** Allow the Vercel deployment to reach MongoDB. Atlas projects commonly use `0.0.0.0/0` with strong database credentials because Vercel functions use dynamic outbound IPs.
+3. **Vercel project.** Import `https://github.com/soorajydv/criico`. The project uses Node 20+ (`package.json` engines; local development uses `.nvmrc`). The checked-in Vercel configuration uses `npm ci` and `npm run build`.
+4. **Environment variables.** Add these to Vercel for the Production, Preview, and Development environments:
+
+   | Variable | Value |
+   | --- | --- |
+   | `MONGODB_URI` | Your MongoDB connection string, including the database name |
+   | `JWT_SECRET` | A unique random secret of at least 32 characters; 48+ is recommended |
+
+5. **Seed once after deployment configuration.** Do not add the seeder to the Vercel build command. If the deployment database needs demo data, run it manually from a trusted machine with the production URI, then remove or rotate any demo password before sharing the application:
+
+   ```bash
+   MONGODB_URI="<production-uri>" npm run db:seed
+   ```
+
+6. **Verify.** Open `/login`, register or sign in, confirm `/dashboard` redirects correctly when signed out, and record a match to verify the MongoDB transaction path.
 
 ## Testing
 
