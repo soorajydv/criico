@@ -22,7 +22,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         </Link>
       </p>
       <p className="mt-6 rounded-lg border border-dashed border-slate-300 px-3 py-2 text-center text-xs text-slate-500">
-        Demo admin: <span className="font-mono">admin@criico.dev</span> / <span className="font-mono">Criico@2026</span>
+        Demo admin: <span className="font-mono">soorajydv9@gmail.com</span> / <span className="font-mono">Password@123</span>
       </p>
     </>
   );
