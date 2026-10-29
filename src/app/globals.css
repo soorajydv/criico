@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* "Pitch" green used for the primary accent */
+  --color-pitch-50: #effaf3;
+  --color-pitch-100: #d8f3e1;
+  --color-pitch-200: #b3e6c7;
+  --color-pitch-300: #7fd2a5;
+  --color-pitch-400: #49b67e;
+  --color-pitch-500: #269a62;
+  --color-pitch-600: #187c4e;
+  --color-pitch-700: #146341;
+  --color-pitch-800: #134f36;
+  --color-pitch-900: #11412e;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  font-size: 94%;
+}
+
+body {
+  background: #f8f7f2;
+  color: var(--color-slate-900);
+}
