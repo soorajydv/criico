@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type FormEvent } from "react";
+import { Fragment, useMemo, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { Button, ButtonLink, Card, Field, Input, Select } from "@/components/ui";
 import { PLAYER_ROLE_LABELS, type PlayerRole } from "@/lib/players/roles";
@@ -101,13 +101,13 @@ export function MatchForm({ players }: { players: PlayerOption[] }) {
       <Card className="p-6">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Team A" name="teamA" error={errors.teamA}>
-            <Input id="teamA" name="teamA" value={teamA} onChange={(e) => setTeamA(e.target.value)} invalid={!!errors.teamA} />
+            <Input id="teamA" name="teamA" value={teamA} onChange={(e) => setTeamA(e.target.value)} minLength={2} maxLength={60} required invalid={!!errors.teamA} />
           </Field>
           <Field label="Team B" name="teamB" error={errors.teamB}>
-            <Input id="teamB" name="teamB" value={teamB} onChange={(e) => setTeamB(e.target.value)} invalid={!!errors.teamB} />
+            <Input id="teamB" name="teamB" value={teamB} onChange={(e) => setTeamB(e.target.value)} minLength={2} maxLength={60} required invalid={!!errors.teamB} />
           </Field>
           <Field label="Result" name="result" error={errors.result}>
-            <Select id="result" name="result" defaultValue="" invalid={!!errors.result}>
+            <Select id="result" name="result" defaultValue="" required invalid={!!errors.result}>
               <option value="" disabled>
                 Select the result
               </option>
@@ -123,6 +123,8 @@ export function MatchForm({ players }: { players: PlayerOption[] }) {
               name="playedOn"
               type="date"
               defaultValue={new Date().toLocaleDateString("en-CA")}
+              max={new Date().toLocaleDateString("en-CA")}
+              required
               invalid={!!errors.playedOn}
             />
           </Field>
@@ -152,10 +154,12 @@ export function MatchForm({ players }: { players: PlayerOption[] }) {
                 <span />
               </div>
               {rows[side].map((row) => (
-                <div key={row.key} className="grid grid-cols-[1fr_4.5rem_4.5rem_2rem] items-center gap-2">
+                <Fragment key={row.key}>
+                <div className="grid grid-cols-[1fr_4.5rem_4.5rem_2rem] items-center gap-2">
                   <Select
                     aria-label={`${name} player`}
                     value={row.playerId}
+                    required
                     onChange={(e) => updateRow(side, row.key, { playerId: e.target.value })}
                   >
                     <option value="">Select player</option>
@@ -167,15 +171,25 @@ export function MatchForm({ players }: { players: PlayerOption[] }) {
                   </Select>
                   <Input
                     aria-label="Runs"
-                    type="number"
+                    type="text"
                     inputMode="numeric"
+                    pattern="[0-9]*"
+                    min={0}
+                    max={1000}
+                    step={1}
+                    required
                     value={row.runs}
                     onChange={(e) => updateRow(side, row.key, { runs: e.target.value })}
                   />
                   <Input
                     aria-label="Wickets"
-                    type="number"
+                    type="text"
                     inputMode="numeric"
+                    pattern="[0-9]*"
+                    min={0}
+                    max={10}
+                    step={1}
+                    required
                     value={row.wickets}
                     onChange={(e) => updateRow(side, row.key, { wickets: e.target.value })}
                   />
@@ -189,6 +203,10 @@ export function MatchForm({ players }: { players: PlayerOption[] }) {
                     ×
                   </button>
                 </div>
+                {(row.runs !== "" && !/^\d+$/.test(row.runs) || row.wickets !== "" && !/^\d+$/.test(row.wickets)) && (
+                  <p className="col-span-4 text-xs text-red-600">Only non-negative whole numbers are allowed.</p>
+                )}
+                </Fragment>
               ))}
             </div>
             <Button

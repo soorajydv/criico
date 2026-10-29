@@ -61,6 +61,17 @@ export function PlayerForm({ action, player }: { action: PlayerFormAction; playe
     startTransition(() => dispatch(formData));
   }
 
+  function preventNegativeInput(event: FormEvent<HTMLInputElement>) {
+    const { name, value } = event.currentTarget;
+    const nextErrors = { ...errors };
+    if (value && !/^\d+$/.test(value)) {
+      nextErrors[name] = "Only non-negative whole numbers are allowed";
+    } else if (nextErrors[name] === "Only non-negative whole numbers are allowed") {
+      delete nextErrors[name];
+    }
+    setErrors(nextErrors);
+  }
+
   return (
     // noValidate: native min/required checks would block submission silently
     // with a browser tooltip, so our toast would never show.
@@ -68,10 +79,10 @@ export function PlayerForm({ action, player }: { action: PlayerFormAction; playe
       <Card className="p-6">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Name" name="name" error={errors.name}>
-            <Input id="name" name="name" defaultValue={player?.name} invalid={!!errors.name} autoComplete="off" />
+            <Input id="name" name="name" defaultValue={player?.name} invalid={!!errors.name} autoComplete="off" minLength={2} maxLength={80} required />
           </Field>
           <Field label="Role" name="role" error={errors.role}>
-            <Select id="role" name="role" defaultValue={player?.role ?? ""} invalid={!!errors.role}>
+            <Select id="role" name="role" defaultValue={player?.role ?? ""} invalid={!!errors.role} required>
               <option value="" disabled>
                 Select a role
               </option>
@@ -93,10 +104,15 @@ export function PlayerForm({ action, player }: { action: PlayerFormAction; playe
               <Input
                 id={field.name}
                 name={field.name}
-                type="number"
+                type="text"
                 inputMode="numeric"
+                pattern="[0-9]*"
                 step={1}
+                min={0}
+                max={field.name === "basePrice" ? 1_000_000_000 : field.name === "matchesPlayed" ? 10_000 : field.name === "totalRuns" ? 1_000_000 : 100_000}
+                required
                 defaultValue={player?.[field.name] ?? 0}
+                onInput={preventNegativeInput}
                 invalid={!!errors[field.name]}
               />
             </Field>

@@ -50,7 +50,7 @@ export function LoginForm({ from }: { from?: string }) {
   return (
     <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
       <Field label="Email" name="email" error={errors.email}>
-        <Input id="email" name="email" type="email" autoComplete="email" invalid={!!errors.email} required />
+        <Input id="email" name="email" type="email" autoComplete="email" inputMode="email" invalid={!!errors.email} required />
       </Field>
       <Field label="Password" name="password" error={errors.password}>
         <Input
@@ -58,6 +58,7 @@ export function LoginForm({ from }: { from?: string }) {
           name="password"
           type="password"
           autoComplete="current-password"
+          minLength={1}
           invalid={!!errors.password}
           required
         />

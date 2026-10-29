@@ -36,13 +36,13 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
       <Field label="Name" name="name" error={errors.name}>
-        <Input id="name" name="name" autoComplete="name" invalid={!!errors.name} />
+        <Input id="name" name="name" autoComplete="name" minLength={2} maxLength={80} invalid={!!errors.name} required />
       </Field>
       <Field label="Email" name="email" error={errors.email}>
-        <Input id="email" name="email" type="email" autoComplete="email" invalid={!!errors.email} />
+        <Input id="email" name="email" type="email" autoComplete="email" inputMode="email" invalid={!!errors.email} required />
       </Field>
       <Field label="Password" name="password" error={errors.password} hint="At least 8 characters with a letter and a number">
-        <Input id="password" name="password" type="password" autoComplete="new-password" invalid={!!errors.password} />
+        <Input id="password" name="password" type="password" autoComplete="new-password" minLength={8} maxLength={72} invalid={!!errors.password} required />
       </Field>
       <Field label="Confirm password" name="confirmPassword" error={errors.confirmPassword}>
         <Input
@@ -50,7 +50,10 @@ export function RegisterForm() {
           name="confirmPassword"
           type="password"
           autoComplete="new-password"
+          minLength={8}
+          maxLength={72}
           invalid={!!errors.confirmPassword}
+          required
         />
       </Field>
       <Button type="submit" className="w-full" disabled={pending}>

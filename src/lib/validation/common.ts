@@ -19,7 +19,11 @@ export function wholeNumber(label: string, max: number) {
     (value) => {
       if (typeof value !== "string") return value;
       const trimmed = value.trim();
-      return trimmed === "" ? undefined : Number(trimmed);
+      // Keep lexical validation strict: Number("1e2") would otherwise become
+      // 100 even though the form accepts only plain whole-number input.
+      if (trimmed === "") return undefined;
+      if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) return Number(trimmed);
+      return trimmed;
     },
     z
       .number({

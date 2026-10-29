@@ -2,7 +2,46 @@
 
 A full-stack Next.js app for managing local cricket players, recording match results and ranking players by a custom **Cricket Impact Score**.
 
+- **Repository:** https://github.com/soorajydv/criico
 - **Live URL:** _add after deploying (see [Deployment](#deployment))_
+
+## Assessment submission status
+
+The application requirements are implemented. The following delivery items still need to be completed before submission:
+
+| Submission item | Status | Notes |
+| --- | --- | --- |
+| Public GitHub repository | Configured | Git remote points to `https://github.com/soorajydv/criico`; confirm the repository is public. |
+| Deployed live URL | Pending | Deploy to Vercel/Netlify and add the URL above. |
+| 3–5 minute walkthrough video | Pending | Cover the schema, JWT cookie auth, Impact Score code, and one bug fix. |
+| Realistic Git history | Action required | The current checkout has one commit (`first commit`); add meaningful commits before submitting. |
+
+## Technical assessment compliance
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| Next.js App Router, React, TypeScript | Complete | `src/app`, strict TypeScript configuration |
+| MongoDB with documented justification | Complete | Mongoose models and the [Why MongoDB](#why-mongodb) section |
+| JWT in an HTTP-only cookie | Complete | `src/lib/auth/jwt.ts`, `src/lib/auth/session.ts`, `/api/auth/login` sets `criico_session` via `Set-Cookie` |
+| Dashboard middleware protection | Complete | `src/middleware.ts` redirects unauthenticated `/dashboard` requests to `/login` |
+| Login and Register | Complete | `src/app/(auth)/*`, `/api/auth/login`, `/api/auth/register` |
+| Player add, edit, and view | Complete | `src/app/dashboard/players/*`, `/api/players` routes |
+| Required API routes | Complete | Auth login, player GET/POST/PUT, match POST, leaderboard GET |
+| Strict Cricket Impact Score | Complete | `src/lib/scoring/impact-score.ts` |
+| Impact Score unit tests | Complete | Vitest tests cover multipliers, boundaries, wicketkeepers, invalid input, rounding |
+| Server Action form submission | Complete | Add/Edit player actions in `src/app/dashboard/players/actions.ts` |
+| Leaderboard React Server Component | Complete | `src/app/dashboard/leaderboard/page.tsx` fetches on the server |
+| Negative Total Runs toast | Complete | `src/app/dashboard/players/player-form.tsx` plus server and database validation |
+
+### Verification
+
+The current codebase passes:
+
+```text
+npm test          5 test files, 58 tests passed
+npm run typecheck passed
+npm run lint      passed
+```
 
 ## Tech stack
 

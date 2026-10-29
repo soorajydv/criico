@@ -28,6 +28,14 @@ describe("playerSchema", () => {
     }
   });
 
+  it("rejects a negative Base Price", () => {
+    const result = playerSchema.safeParse({ ...validPlayer, basePrice: "-6" });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(toFieldErrors(result.error).basePrice).toBe("Base Price cannot be negative");
+    }
+  });
+
   it("does not silently turn empty, null or boolean input into 0", () => {
     for (const totalRuns of ["", "   ", null, true]) {
       expect(playerSchema.safeParse({ ...validPlayer, totalRuns }).success).toBe(false);
@@ -37,6 +45,7 @@ describe("playerSchema", () => {
   it("rejects fractional and non-numeric stats", () => {
     expect(playerSchema.safeParse({ ...validPlayer, totalWickets: "2.5" }).success).toBe(false);
     expect(playerSchema.safeParse({ ...validPlayer, totalRuns: "abc" }).success).toBe(false);
+    expect(playerSchema.safeParse({ ...validPlayer, totalRuns: "1e2" }).success).toBe(false);
   });
 
   it("rejects runs or wickets for a player with 0 matches", () => {
