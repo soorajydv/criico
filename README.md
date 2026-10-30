@@ -69,7 +69,7 @@ npm run lint      passed
 | `PUT /api/players/[id]` | `src/app/api/players/[id]/route.ts` |
 | `POST /api/matches` | `src/app/api/matches/route.ts` |
 | `GET /api/leaderboard` | `src/app/api/leaderboard/route.ts` |
-| Impact Score in TypeScript + unit tests | `src/lib/scoring/impact-score.ts`, `impact-score.test.ts` |
+| Impact Score in TypeScript + unit tests | `src/lib/scoring/impact-score.ts`, `src/lib/tests/impact-score.test.ts` |
 | Wicketkeeper can't get the Bowler multiplier (types) | `WicketkeeperModifier` in `impact-score.ts` |
 | Server Action form submission | `src/app/dashboard/players/actions.ts` (Add/Edit player), `src/app/(auth)/actions.ts` (Register, Sign out) |
 | RSC fetching the leaderboard | `src/app/dashboard/leaderboard/page.tsx` |
@@ -169,7 +169,7 @@ Experience: fewer than 5 matches gives **−50**, more than 20 matches gives **+
 
 **Runtime guards.** Unknown roles throw a `TypeError`. Negative or fractional stats throw a `RangeError`. Scores are rounded to 2 decimals because `1.3 × 1.2 === 1.5599999999999998` in IEEE-754 arithmetic.
 
-**Tests** ([`impact-score.test.ts`](src/lib/scoring/impact-score.test.ts)) cover:
+**Tests** ([`impact-score.test.ts`](src/lib/tests/impact-score.test.ts)) cover:
 
 - a Bowler with 0 matches (−50)
 - a high-run veteran Wicketkeeper (1500 runs, 30 matches gives 1930)
@@ -299,11 +299,11 @@ The repository includes [`vercel.json`](vercel.json), which configures the Next.
 ## Testing
 
 ```text
-src/lib/scoring/impact-score.test.ts         formula, role multipliers, boundaries, type constraint
-src/lib/scoring/leaderboard.test.ts          ordering, shared ranks on ties, no input mutation
-src/lib/validation/validation.test.ts        negative runs, null/""/fraction rejection, match rules
-src/lib/auth/auth.test.ts                    JWT round-trip, tampering, wrong secret, expiry, open redirect
-src/lib/services/services.integration.test.ts
+src/lib/tests/impact-score.test.ts           formula, role multipliers, boundaries, type constraint
+src/lib/tests/leaderboard.test.ts            ordering, shared ranks on ties, no input mutation
+src/lib/tests/validation.test.ts             negative runs, null/""/fraction rejection, match rules
+src/lib/tests/auth.test.ts                   JWT round-trip, tampering, wrong secret, expiry, open redirect
+src/lib/tests/services.integration.test.ts
     real MongoDB replica set: CRUD, DB validator, match transaction + rollback, auth
 ```
 
@@ -330,8 +330,11 @@ src/
   components/ui.tsx             Tailwind UI primitives
   lib/
     auth/                       jwt (Edge-safe), session (server-only), redirect guard
-    db/                         Mongo connection cache, models, $jsonSchema validators
+    controllers/                API request/response orchestration
+    db/                         Mongo connection cache and collection validators
+    models/                     Mongoose schemas and document types
     scoring/                    Impact Score + ranking (pure, framework-free)
     services/                   business logic shared by API routes, Server Actions and RSCs
+    tests/                      unit and integration tests
     validation/                 Zod schemas shared by client and server
 ```

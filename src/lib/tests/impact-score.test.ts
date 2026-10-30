@@ -5,7 +5,7 @@ import {
   ROLE_MODIFIERS,
   type ImpactScoreInput,
   type WicketkeeperModifier,
-} from "./impact-score";
+} from "@/lib/scoring/impact-score";
 
 const player = (overrides: Partial<ImpactScoreInput>): ImpactScoreInput => ({
   role: "ALL_ROUNDER",

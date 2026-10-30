@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { firstErrorMessage, toFieldErrors } from "./common";
-import { matchSchema } from "./match";
-import { playerSchema, playerUpdateSchema } from "./player";
-import { registerSchema } from "./auth";
+import { firstErrorMessage, toFieldErrors } from "@/lib/validation/common";
+import { matchSchema } from "@/lib/validation/match";
+import { playerSchema, playerUpdateSchema } from "@/lib/validation/player";
+import { registerSchema } from "@/lib/validation/auth";
 
 const validPlayer = {
   name: "Rohit Sharma",

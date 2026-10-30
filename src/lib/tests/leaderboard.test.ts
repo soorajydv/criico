@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { rankPlayers } from "./leaderboard";
+import { rankPlayers } from "@/lib/scoring/leaderboard";
 import type { PlayerRole } from "@/lib/players/roles";
 
 const make = (

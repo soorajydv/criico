@@ -1,7 +1,7 @@
 import { SignJWT } from "jose";
 import { beforeAll, describe, expect, it } from "vitest";
-import { signSession, verifySession, type SessionPayload } from "./jwt";
-import { safeRedirectPath } from "./redirect";
+import { signSession, verifySession, type SessionPayload } from "@/lib/auth/jwt";
+import { safeRedirectPath } from "@/lib/auth/redirect";
 
 const session: SessionPayload = {
   sub: "64b7f0c2a1b2c3d4e5f60001",

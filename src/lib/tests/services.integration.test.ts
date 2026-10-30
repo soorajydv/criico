@@ -4,14 +4,14 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { ZodError } from "zod";
 import { applyCollectionValidators } from "@/lib/db/collection-validators";
 import { connectDB } from "@/lib/db/connect";
-import { Match } from "@/lib/db/models/match";
-import { Player } from "@/lib/db/models/player";
-import { User } from "@/lib/db/models/user";
+import { Match } from "@/lib/models/match";
+import { Player } from "@/lib/models/player";
+import { User } from "@/lib/models/user";
 import { BadRequestError, ConflictError, NotFoundError, UnauthorizedError } from "@/lib/errors";
-import { authenticateUser, registerUser } from "./auth";
-import { getLeaderboard } from "./leaderboard";
-import { listMatches, recordMatch } from "./matches";
-import { createPlayer, getPlayer, updatePlayer } from "./players";
+import { authenticateUser, registerUser } from "@/lib/services/auth";
+import { getLeaderboard } from "@/lib/services/leaderboard";
+import { listMatches, recordMatch } from "@/lib/services/matches";
+import { createPlayer, getPlayer, updatePlayer } from "@/lib/services/players";
 
 let replSet: MongoMemoryReplSet;
 
