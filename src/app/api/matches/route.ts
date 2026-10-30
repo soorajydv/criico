@@ -1,17 +1,7 @@
-import { revalidatePath } from "next/cache";
-import { handleApiError, ok, readJson } from "@/lib/api/http";
-import { requireAdmin, requireSession } from "@/lib/auth/session";
-import { listMatches, recordMatch } from "@/lib/services/matches";
+import { createMatchController, listMatchesController } from "@/lib/controllers/matches.controller";
 
 /** GET /api/matches: most recent matches first. */
-export async function GET() {
-  try {
-    await requireSession();
-    return ok(await listMatches());
-  } catch (error) {
-    return handleApiError(error);
-  }
-}
+export const GET = listMatchesController;
 
 /**
  * POST /api/matches: record a result and update every player's career stats.
@@ -20,13 +10,4 @@ export async function GET() {
  *   performances: [{ playerId, team: "A" | "B", runs, wickets }]
  * }
  */
-export async function POST(request: Request) {
-  try {
-    const session = await requireAdmin();
-    const match = await recordMatch(await readJson(request), session.sub);
-    revalidatePath("/dashboard", "layout");
-    return ok(match, { status: 201 });
-  } catch (error) {
-    return handleApiError(error);
-  }
-}
+export const POST = createMatchController;
