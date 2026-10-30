@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/db/connect";
-import { Player, type PlayerDoc } from "@/lib/db/models/player";
+import { Player, type PlayerDoc } from "@/lib/models/player";
 import { NotFoundError } from "@/lib/errors";
 import type { PlayerRole } from "@/lib/players/roles";
 import { isObjectId } from "@/lib/validation/common";

@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db/connect";
-import { User, type UserDoc } from "@/lib/db/models/user";
+import { User, type UserDoc } from "@/lib/models/user";
 import type { SessionPayload } from "@/lib/auth/jwt";
 import { ConflictError, UnauthorizedError } from "@/lib/errors";
 import { loginSchema, registerSchema } from "@/lib/validation/auth";

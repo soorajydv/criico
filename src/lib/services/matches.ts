@@ -1,7 +1,7 @@
 import mongoose, { Types } from "mongoose";
 import { connectDB } from "@/lib/db/connect";
-import { Match, type MatchDoc } from "@/lib/db/models/match";
-import { Player, type PlayerDoc } from "@/lib/db/models/player";
+import { Match, type MatchDoc } from "@/lib/models/match";
+import { Player, type PlayerDoc } from "@/lib/models/player";
 import { BadRequestError } from "@/lib/errors";
 import { matchSchema, type MatchResult, type TeamSide } from "@/lib/validation/match";
 

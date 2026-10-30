@@ -4,9 +4,9 @@ config({ path: ".env.local", quiet: true });
 import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
 import { connectDB } from "@/lib/db/connect";
-import { User } from "@/lib/db/models/user";
-import { Player } from "@/lib/db/models/player";
-import { Match } from "@/lib/db/models/match";
+import { User } from "@/lib/models/user";
+import { Player } from "@/lib/models/player";
+import { Match } from "@/lib/models/match";
 import { recordMatch } from "@/lib/services/matches";
 import type { PlayerRole } from "@/lib/players/roles";
 
